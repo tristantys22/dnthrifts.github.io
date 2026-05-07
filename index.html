@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DN Thrifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-brown: #3B2A1A;
+    --rust: #B5522A;
+    --mustard: #D4A017;
+    --faded-green: #6B7C5C;
+    --paper: #EDE6D3;
+    --dark-cream: #C8BFA8;
+  }
+
+  body {
+    background-color: var(--cream);
+    color: var(--warm-brown);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--warm-brown);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--rust); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-brown);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  .nav-cart {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .nav-cart:hover { background: var(--rust); }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 88vh;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .hero-left {
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1.5px solid var(--warm-brown);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-sub {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: #6B5A46;
+    max-width: 400px;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover { background: var(--rust); }
+
+  .btn-secondary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: transparent;
+    color: var(--warm-brown);
+    border: 1.5px solid var(--warm-brown);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover { border-color: var(--rust); color: var(--rust); }
+
+  .hero-right {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s ease 0.3s both;
+  }
+
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .hero-hanger { font-size: 5rem; opacity: 0.3; }
+
+  .hero-img-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dark-cream);
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--rust);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 1.5;
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--warm-brown);
+    color: var(--cream);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 4rem;
+    animation: ticker 18s linear infinite;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .ticker-dot { color: var(--mustard); margin-right: -2rem; }
+
+  /* SECTION */
+  section { padding: 5rem 4rem; }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+    padding-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  .section-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rust);
+    padding-bottom: 2px;
+  }
+
+  /* PRODUCT GRID */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .product-card {
+    background: var(--paper);
+    cursor: pointer;
+    transition: transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card:hover { transform: translateY(-4px); }
+  .product-card:hover .product-overlay { opacity: 1; }
+
+  .product-image {
+    aspect-ratio: 3/4;
+    background: var(--dark-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 2.5rem;
+    opacity: 0.4;
+    position: relative;
+  }
+
+  /* TO ADD YOUR OWN PHOTO: replace the emoji in .product-image with:
+     <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="item name"> */
+
+  .product-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(59,42,26,0.08);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .add-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .product-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--mustard);
+    color: var(--warm-brown);
+    padding: 0.25rem 0.6rem;
+  }
+
+  .product-info { padding: 1rem 1.2rem 1.5rem; }
+
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .product-desc {
+    font-size: 0.85rem;
+    color: #6B5A46;
+    font-style: italic;
+    margin-bottom: 0.6rem;
+  }
+
+  .product-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--rust);
+  }
+
+  .product-size {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dark-cream);
+    float: right;
+    margin-top: 2px;
+  }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    background: var(--warm-brown);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1.5px solid var(--warm-brown);
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .about-left {
+    padding: 5rem 4rem;
+    border-right: 1.5px solid rgba(245,240,232,0.15);
+  }
+
+  .about-right {
+    padding: 5rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-content: center;
+  }
+
+  .about-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-title em { font-style: italic; color: var(--mustard); }
+
+  .about-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.75);
+    max-width: 400px;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--mustard);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.5);
+  }
+
+  /* CATEGORIES */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .cat-card {
+    background: var(--paper);
+    padding: 2.5rem 2rem;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .cat-card:hover { border-color: var(--rust); background: var(--cream); }
+
+  .cat-icon { font-size: 2rem; margin-bottom: 1rem; display: block; opacity: 0.6; }
+
+  .cat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .cat-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--warm-brown);
+    color: var(--cream);
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    border-top: 1.5px solid var(--warm-brown);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .footer-brand span { color: var(--mustard); }
+
+  .footer-tagline {
+    font-style: italic;
+    color: rgba(245,240,232,0.6);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    max-width: 260px;
+    line-height: 1.7;
+  }
+
+  .footer-social { display: flex; gap: 1rem; }
+
+  .social-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(245,240,232,0.3);
+    color: var(--cream);
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .social-btn:hover { border-color: var(--mustard); color: var(--mustard); }
+
+  .footer-col-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mustard);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-links a {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    background: var(--warm-brown);
+    border-top: 1px solid rgba(245,240,232,0.1);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.35);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">DN<span>.</span>Thrifts</a>
+  <ul class="nav-links">
+    <li><a href="#">Shop</a></li>
+    <li><a href="#">New In</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cart">Bag (0)</button>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>New drops every week</span><span class="ticker-dot">✦</span>
+    <span>Sustainable fashion</span><span class="ticker-dot">✦</span>
+    <span>One of a kind pieces</span><span class="ticker-dot">✦</span>
+    <span>Pre-loved & handpicked</span><span class="ticker-dot">✦</span>
+    <span>Retro. Vintage. Yours.</span><span class="ticker-dot">✦</span>
+    <span>New drops every week</span><span class="ticker-dot">✦</span>
+    <span>Sustainable fashion</span><span class="ticker-dot">✦</span>
+    <span>One of a kind pieces</span><span class="ticker-dot">✦</span>
+    <span>Pre-loved & handpicked</span><span class="ticker-dot">✦</span>
+    <span>Retro. Vintage. Yours.</span><span class="ticker-dot">✦</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">✦ Est. 2024 — Singapore</p>
+    <h1 class="hero-title">Wear the<br><em>past,</em><br>own the<br>moment.</h1>
+    <p class="hero-sub">Handpicked thrift finds with soul. Every piece has a story — now it's yours to write.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">Shop Now</a>
+      <a href="#" class="btn-secondary">New In</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder">
+      <!-- REPLACE THIS SECTION WITH YOUR OWN PHOTO:
+           <img src="hero.jpg" style="width:100%;height:100%;object-fit:cover;" alt="DN Thrifts"> -->
+      <div class="hero-hanger">👗</div>
+      <span class="hero-img-label">Add your hero photo here</span>
+    </div>
+    <div class="hero-badge">Pre·<br>Loved<br>✦<br>Finds</div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">Fresh Finds</h2>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+  <div class="products-grid">
+
+    <!-- PRODUCT CARD — duplicate this block to add more items -->
+    <div class="product-card">
+      <div class="product-image">
+        <div class="product-tag">New In</div>
+        <!-- Replace emoji with: <img src="item1.jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Vintage Band Tee"> -->
+        👕
+        <div class="product-overlay"><button class="add-btn">Add to Bag</button></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Vintage Band Tee</div>
+        <div class="product-desc">Faded 90s concert print, worn-in perfection</div>
+        <span class="product-price">$14</span>
+        <span class="product-size">M</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <div class="product-tag">1 Left</div>
+        🧥
+        <div class="product-overlay"><button class="add-btn">Add to Bag</button></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Corduroy Blazer</div>
+        <div class="product-desc">Rich brown, structured shoulders, timeless cut</div>
+        <span class="product-price">$28</span>
+        <span class="product-size">S/M</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        👖
+        <div class="product-overlay"><button class="add-btn">Add to Bag</button></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">High-Rise Levis</div>
+        <div class="product-desc">501s, light wash, lightly distressed knees</div>
+        <span class="product-price">$22</span>
+        <span class="product-size">W28</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section style="padding-top: 0;">
+  <div class="section-header">
+    <h2 class="section-title">Shop by Category</h2>
+    <a href="#" class="section-link">Browse all →</a>
+  </div>
+  <div class="categories-grid">
+    <div class="cat-card">
+      <span class="cat-icon">👕</span>
+      <div class="cat-name">Tops</div>
+      <div class="cat-count">24 items</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">👖</span>
+      <div class="cat-name">Bottoms</div>
+      <div class="cat-count">18 items</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🧥</span>
+      <div class="cat-name">Outerwear</div>
+      <div class="cat-count">12 items</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">👗</span>
+      <div class="cat-name">Dresses</div>
+      <div class="cat-count">9 items</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-strip">
+  <div class="about-left">
+    <div class="about-eyebrow">✦ Our story</div>
+    <h2 class="about-title">Thrift with<br><em>intention.</em></h2>
+    <p class="about-body">DN Thrifts was born from a love of slow fashion and the thrill of the find. We handpick every piece — sourced locally, priced fairly, worn with pride. No fast fashion, no filler. Just real clothes with real character.</p>
+  </div>
+  <div class="about-right">
+    <div class="stat-item">
+      <div class="stat-num">100+</div>
+      <div class="stat-label">Pieces listed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">New items ever</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">All</div>
+      <div class="stat-label">Handpicked by us</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">SG</div>
+      <div class="stat-label">Based locally</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">DN<span>.</span>Thrifts</div>
+    <p class="footer-tagline">Pre-loved clothes, handpicked with care. Singapore's favourite vintage haul.</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/YOURHANDLE" class="social-btn">Instagram</a>
+      <a href="https://carousell.com/YOURHANDLE" class="social-btn">Carousell</a>
+      <a href="https://tiktok.com/@YOURHANDLE" class="social-btn">TikTok</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-title">Shop</div>
+    <ul class="footer-links">
+      <li><a href="#">New In</a></li>
+      <li><a href="#">Tops</a></li>
+      <li><a href="#">Bottoms</a></li>
+      <li><a href="#">Outerwear</a></li>
+      <li><a href="#">Dresses</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Info</div>
+    <ul class="footer-links">
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2024 DN Thrifts. All rights reserved.</span>
+  <span class="footer-copy">Made with love in Singapore ✦</span>
+</div>
+
+</body>
+</html>
