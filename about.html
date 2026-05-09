@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — dNthrifts</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-brown: #3B2A1A;
+    --rust: #B5522A;
+    --mustard: #D4A017;
+    --paper: #EDE6D3;
+    --dark-cream: #C8BFA8;
+  }
+
+  body {
+    background-color: var(--cream);
+    color: var(--warm-brown);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--rust); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-brown);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  .nav-cart {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .nav-cart:hover { background: var(--rust); }
+
+  /* HERO */
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 60vh;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .about-hero-left {
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1.5px solid var(--warm-brown);
+  }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-hero-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .about-hero-body {
+    font-size: 1rem;
+    color: #6B5A46;
+    max-width: 420px;
+    line-height: 1.8;
+  }
+
+  .about-hero-right {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    position: relative;
+  }
+
+  .founders-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .founders-emoji { font-size: 4rem; }
+
+  .founders-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--dark-cream);
+  }
+
+  /* REPLACE ABOVE WITH YOUR PHOTO:
+     <img src="images/founders.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Dexun and Tristan"> */
+
+  /* STORY SECTION */
+  .story-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .story-label {
+    padding: 4rem;
+    border-right: 1.5px solid var(--warm-brown);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 4rem;
+  }
+
+  .story-label-text {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--dark-cream);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .story-content {
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .story-content p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #4A3728;
+    max-width: 620px;
+  }
+
+  .story-content p strong {
+    color: var(--warm-brown);
+    font-weight: 700;
+  }
+
+  /* FOUNDERS CARDS */
+  .founders-section {
+    padding: 5rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .founders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .founders-title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .founders-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .founder-card {
+    background: var(--paper);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .founder-initial {
+    width: 64px;
+    height: 64px;
+    background: var(--warm-brown);
+    color: var(--cream);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Replace with: <img src="images/dexun.jpg"> */
+  }
+
+  .founder-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .founder-role {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--rust);
+  }
+
+  .founder-bio {
+    font-size: 0.9rem;
+    color: #6B5A46;
+    line-height: 1.7;
+    max-width: 380px;
+  }
+
+  /* VALUES */
+  .values-section {
+    background: var(--warm-brown);
+    color: var(--cream);
+    padding: 5rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .values-eyebrow {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--mustard);
+    margin-bottom: 1rem;
+  }
+
+  .values-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .value-item {}
+
+  .value-num {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--mustard);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .value-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .value-desc {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.7;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .cta-text {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .cta-text span { color: var(--rust); }
+
+  .btn-primary {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover { background: var(--rust); }
+
+  /* FOOTER */
+  .footer-bottom {
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark-cream);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">dN<span>.</span>thrifts</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html" style="color:var(--rust);">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart">Bag (0)</button>
+</nav>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="about-hero-left">
+    <p class="eyebrow">✦ Our Story</p>
+    <h1 class="about-hero-title">Dexun &<br>Tristan's<br><em>Thrifts.</em></h1>
+    <p class="about-hero-body">Two Raffles Hall students. One shared love for thrift. That's how dNthrifts was born — the D is Dexun, the N is Tristan, and the Thrifts? That's all of us.</p>
+  </div>
+  <div class="about-hero-right">
+    <div class="founders-placeholder">
+      <!-- Replace with: <img src="images/founders.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" alt="Dexun and Tristan"> -->
+      <div class="founders-emoji">🤝</div>
+      <span class="founders-label">Add a photo of you two here</span>
+    </div>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="story-section">
+  <div class="story-label">
+    <span class="story-label-text">How it started</span>
+  </div>
+  <div class="story-content">
+    <p>It started the way most good things do — out of necessity. As <strong>Raffles Hall students</strong>, we wanted to look good without burning through our allowance on fast fashion. So we started thrifting. And then we got pretty good at it.</p>
+    <p>We realised we were finding more gems than we could wear ourselves, so we figured — why not share the finds? <strong>dNthrifts</strong> is our way of passing on great pieces to people who'll actually wear them, at prices that don't make your wallet cry.</p>
+    <p>Every piece is <strong>handpicked by us personally</strong>. If it's on the site, we'd wear it ourselves. That's our only rule.</p>
+  </div>
+</div>
+
+<!-- FOUNDERS -->
+<div class="founders-section">
+  <div class="founders-header">
+    <h2 class="founders-title">The Founders</h2>
+  </div>
+  <div class="founders-grid">
+
+    <div class="founder-card">
+      <div class="founder-initial">D</div>
+      <div class="founder-name">Dexun</div>
+      <div class="founder-role">Co-Founder · The D in dN</div>
+      <p class="founder-bio">Raffles Hall resident, thrift enthusiast, and the guy who can spot a good flannel from across a room. Dexun handles the sourcing and makes sure every piece meets the vibe check.</p>
+    </div>
+
+    <div class="founder-card">
+      <div class="founder-initial">T</div>
+      <div class="founder-name">Tristan</div>
+      <div class="founder-role">Co-Founder · The N in dN</div>
+      <p class="founder-bio">Also a Raffles Hall resident, also obsessed with thrift. Tristan runs the operations, keeps the site alive, and is probably the reason you're reading this right now.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- VALUES -->
+<div class="values-section">
+  <div class="values-eyebrow">✦ What we stand for</div>
+  <h2 class="values-title">Why thrift?</h2>
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-num">01</div>
+      <div class="value-name">Affordable</div>
+      <p class="value-desc">We price for broke uni students. If we wouldn't pay it ourselves, we won't charge you it either.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-num">02</div>
+      <div class="value-name">Handpicked</div>
+      <p class="value-desc">No bulk dumps. Every single item is chosen by us. If it's here, it passed our vibe check.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-num">03</div>
+      <div class="value-name">Sustainable</div>
+      <p class="value-desc">Pre-loved, not pre-landfill. Every piece you buy is one less item going to waste.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-text">Ready to find your<br>next <span>favourite piece?</span></div>
+  <a href="shop.html" class="btn-primary">Shop Now →</a>
+</div>
+
+<div class="footer-bottom">
+  <span>© 2024 dNthrifts. All rights reserved.</span>
+  <span>Made with love in Singapore ✦</span>
+</div>
+
+</body>
+</html>
