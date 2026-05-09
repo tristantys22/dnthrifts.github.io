@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — dNthrifts</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-brown: #3B2A1A;
+    --rust: #B5522A;
+    --mustard: #D4A017;
+    --paper: #EDE6D3;
+    --dark-cream: #C8BFA8;
+  }
+
+  body {
+    background-color: var(--cream);
+    color: var(--warm-brown);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+    background: var(--cream);
+  }
+
+  .nav-logo {
+    font-family: Helvetica, serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--rust); }
+
+  .nav-back {
+    font-family: Helvetica, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-brown);
+    text-decoration: none;
+    border-bottom: 1px solid var(--warm-brown);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .nav-back:hover { color: var(--rust); border-color: var(--rust); }
+
+  /* MAIN */
+  .checkout-wrapper {
+    max-width: 960px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* LEFT — ORDER SUMMARY */
+  .order-summary {
+    background: var(--paper);
+    padding: 2.5rem;
+    border: 1.5px solid var(--warm-brown);
+  }
+
+  .summary-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+  }
+
+  .item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--dark-cream);
+    gap: 1rem;
+  }
+
+  .item-row:last-of-type { border-bottom: none; }
+
+  .item-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .item-meta {
+    font-size: 0.75rem;
+    color: #6B5A46;
+    font-style: italic;
+  }
+
+  .item-price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--rust);
+    white-space: nowrap;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid var(--warm-brown);
+  }
+
+  .total-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .total-amount {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+  }
+
+  /* RIGHT — PAYMENT */
+  .payment-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .payment-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .payment-title span { color: var(--rust); }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--warm-brown);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4A3728;
+  }
+
+  .step-text strong { color: var(--warm-brown); }
+
+  /* QR */
+  .qr-box {
+    background: white;
+    border: 1.5px solid var(--warm-brown);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .qr-box img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  .qr-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--dark-cream);
+    text-align: center;
+  }
+
+  .qr-amount {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-align: center;
+  }
+
+  .qr-amount span { color: var(--rust); }
+
+  /* DM BUTTON */
+  .dm-btn {
+    display: block;
+    text-align: center;
+    font-family: Helvetica, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .dm-btn:hover { background: var(--rust); }
+
+  .dm-note {
+    font-size: 0.75rem;
+    color: #6B5A46;
+    font-style: italic;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer-bottom {
+    margin-top: 6rem;
+    border-top: 1px solid var(--dark-cream);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark-cream);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">dN<span>.</span>thrifts</a>
+  <a class="nav-back" href="index.html">← Back to shop</a>
+</nav>
+
+<!-- CHECKOUT -->
+<div class="checkout-wrapper">
+
+  <!-- LEFT: ORDER SUMMARY -->
+  <div class="order-summary">
+    <div class="summary-label">✦ Order Summary</div>
+
+    <!-- ITEM ROWS — add/remove items here to match what the buyer picked -->
+    <div class="item-row">
+      <div>
+        <div class="item-name">Vintage Band Tee</div>
+        <div class="item-meta">Size M · Pre-loved</div>
+      </div>
+      <div class="item-price">$14</div>
+    </div>
+
+    <div class="item-row">
+      <div>
+        <div class="item-name">Corduroy Blazer</div>
+        <div class="item-meta">Size S/M · Pre-loved</div>
+      </div>
+      <div class="item-price">$28</div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="total-row">
+      <div class="total-label">Total to Pay</div>
+      <div class="total-amount">$42</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: PAYMENT -->
+  <div class="payment-panel">
+    <div class="payment-title">Pay via<br><span>PayLah!</span></div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open your <strong>DBS PayLah!</strong> app and scan the QR code below</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Enter the <strong>exact amount shown</strong> and complete payment</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Screenshot your receipt and <strong>DM us on Instagram</strong> to confirm your order</div>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="qr-box">
+      <div class="qr-amount">Pay <span>$42</span></div>
+      <!-- Make sure paylah.jpg is uploaded to your GitHub repo -->
+      <img src="images/paylah.jpg" alt="PayLah QR Code">
+      <div class="qr-label">Scan with DBS PayLah! app</div>
+    </div>
+
+    <!-- DM BUTTON -->
+    <a href="https://instagram.com/tristantys" target="_blank" class="dm-btn">
+      📸 DM @tristantys after paying
+    </a>
+
+    <p class="dm-note">
+      Send us your payment screenshot on Instagram and include the item name(s) + your delivery address. We'll confirm within 24hrs! 🛍️
+    </p>
+
+  </div>
+</div>
+
+<div class="footer-bottom">
+  <span>© 2024 dNthrifts. All rights reserved.</span>
+  <span>Made with love in Singapore ✦</span>
+</div>
+
+</body>
+</html>
