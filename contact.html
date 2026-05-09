@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — dNthrifts</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-brown: #3B2A1A;
+    --rust: #B5522A;
+    --mustard: #D4A017;
+    --paper: #EDE6D3;
+    --dark-cream: #C8BFA8;
+  }
+
+  body {
+    background-color: var(--cream);
+    color: var(--warm-brown);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--rust); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-brown);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  .nav-cart {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .nav-cart:hover { background: var(--rust); }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 4rem 4rem 3rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+  }
+
+  .page-title span { color: var(--rust); }
+
+  .page-sub {
+    font-size: 1rem;
+    color: #6B5A46;
+    margin-top: 1rem;
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  /* MAIN LAYOUT */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  /* LEFT — CONTACT INFO */
+  .contact-info {
+    padding: 4rem;
+    border-right: 1.5px solid var(--warm-brown);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .info-block {}
+
+  .info-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--dark-cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .info-value:hover { color: var(--rust); }
+
+  .info-note {
+    font-size: 0.8rem;
+    color: #6B5A46;
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+
+  /* SOCIAL BUTTONS */
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border: 1.5px solid var(--warm-brown);
+    text-decoration: none;
+    color: var(--warm-brown);
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .social-link:hover {
+    background: var(--warm-brown);
+    color: var(--cream);
+  }
+
+  .social-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+  }
+
+  .social-handle {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSE TIME */
+  .response-box {
+    background: var(--paper);
+    padding: 1.5rem;
+    border-left: 3px solid var(--mustard);
+  }
+
+  .response-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mustard);
+    margin-bottom: 0.5rem;
+  }
+
+  .response-text {
+    font-size: 0.85rem;
+    color: #4A3728;
+    line-height: 1.6;
+  }
+
+  /* RIGHT — CONTACT FORM */
+  .contact-form-wrap {
+    padding: 4rem;
+  }
+
+  .form-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--warm-brown);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: var(--warm-brown);
+    background: var(--paper);
+    border: 1.5px solid var(--dark-cream);
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--warm-brown);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .submit-btn {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover { background: var(--rust); }
+
+  /* SUCCESS MESSAGE */
+  .success-msg {
+    display: none;
+    background: var(--paper);
+    border: 1.5px solid var(--warm-brown);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .success-msg.show { display: block; }
+
+  .success-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+  .success-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .success-text {
+    font-size: 0.85rem;
+    color: #6B5A46;
+  }
+
+  /* FAQ STRIP */
+  .faq-section {
+    padding: 4rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .faq-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1.5px solid var(--warm-brown);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 4rem;
+  }
+
+  .faq-item {}
+
+  .faq-q {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .faq-a {
+    font-size: 0.85rem;
+    color: #6B5A46;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  .footer-bottom {
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark-cream);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">dN<span>.</span>thrifts</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" style="color:var(--rust);">Contact</a></li>
+  </ul>
+  <button class="nav-cart">Bag (0)</button>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <p class="eyebrow">✦ Get in touch</p>
+  <h1 class="page-title">Talk to <span>Dexun & Tristan</span></h1>
+  <p class="page-sub">Got a question about sizing, an order, or just want to know when the next drop is? Hit us up — we reply fast.</p>
+</div>
+
+<!-- CONTACT MAIN -->
+<div class="contact-wrapper">
+
+  <!-- LEFT: INFO -->
+  <div class="contact-info">
+
+    <div class="info-block">
+      <div class="info-label">✦ Email us</div>
+      <a href="mailto:tristantan2002@gmail.com" class="info-value">tristantan2002@gmail.com</a>
+      <p class="info-note">Best for order issues or general questions</p>
+    </div>
+
+    <div class="info-block">
+      <div class="info-label">✦ Find us on</div>
+      <div class="social-links">
+        <a href="https://instagram.com/tristantys" target="_blank" class="social-link">
+          <span class="social-icon">📸</span>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;">Instagram</div>
+            <div class="social-handle">@tristantys</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="response-box">
+      <div class="response-title">⏱ Response time</div>
+      <p class="response-text">We're uni students so we're not always online — but we try to reply within <strong>24 hours</strong>. For urgent stuff, Instagram DM is fastest!</p>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="contact-form-wrap">
+    <div class="form-title">Send us a message</div>
+
+    <div id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" id="nameInput" placeholder="e.g. Ahmad">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Email</label>
+          <input type="email" class="form-input" id="emailInput" placeholder="you@email.com">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What's this about?</label>
+        <select class="form-select" id="subjectInput">
+          <option value="">Select a topic...</option>
+          <option value="order">Order / Payment question</option>
+          <option value="sizing">Sizing question</option>
+          <option value="item">Question about a specific item</option>
+          <option value="drop">Next drop / restock</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Your Message</label>
+        <textarea class="form-textarea" id="messageInput" placeholder="Tell us what's on your mind..."></textarea>
+      </div>
+
+      <button class="submit-btn" onclick="handleSubmit()">Send Message →</button>
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div class="success-icon">✦</div>
+      <div class="success-title">Message sent!</div>
+      <p class="success-text">Thanks for reaching out. We'll get back to you within 24 hours. In the meantime, feel free to DM us on Instagram @tristantys!</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <h2 class="faq-title">Quick answers</h2>
+  <div class="faq-grid">
+
+    <div class="faq-item">
+      <div class="faq-q">How do I pay?</div>
+      <p class="faq-a">We use PayLah! — scan the QR on the checkout page, enter the amount, and DM us your receipt on Instagram to confirm.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Do you do meetups or delivery?</div>
+      <p class="faq-a">Both! We can meetup around NUS / Raffles Hall, or arrange delivery. DM us to sort out the details after payment.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I reserve an item?</div>
+      <p class="faq-a">We don't officially hold items, but drop us a DM and we'll do our best. First come first served though!</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">When's the next drop?</div>
+      <p class="faq-a">Follow us on Instagram @tristantys — we announce all new drops there first. Sometimes we drop some stuff, sometimes we don't. Stay tuned!</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Are items washed before selling?</div>
+      <p class="faq-a">Yes — every item is washed and checked before it goes up. We wouldn't sell something we wouldn't wear ourselves.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I return an item?</div>
+      <p class="faq-a">We don't accept returns since items are pre-loved, but if there's a genuine issue with what you received, DM us and we'll work something out.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bottom">
+  <span>© 2024 dNthrifts. All rights reserved.</span>
+  <span>Made with love in Singapore ✦</span>
+</div>
+
+<script>
+  function handleSubmit() {
+    const name = document.getElementById('nameInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim();
+    const message = document.getElementById('messageInput').value.trim();
+
+    if (!name || !email || !message) {
+      alert('Please fill in your name, email, and message!');
+      return;
+    }
+
+    // Build mailto link and open email client
+    const subject = document.getElementById('subjectInput').value || 'dNthrifts enquiry';
+    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+    const mailtoLink = `mailto:tristantan2002@gmail.com?subject=dNthrifts - ${subject}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+
+    // Show success message
+    document.getElementById('contactForm').style.opacity = '0.4';
+    document.getElementById('contactForm').style.pointerEvents = 'none';
+    document.getElementById('successMsg').classList.add('show');
+  }
+</script>
+
+</body>
+</html>
