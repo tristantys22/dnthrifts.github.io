@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Meet Dexun and Tristan, the two Raffles Hall students behind dNthrifts — Singapore's pre-loved, handpicked thrift shop.">
 <title>About — dNthrifts</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -354,6 +355,33 @@
     letter-spacing: 0.1em;
     color: var(--dark-cream);
   }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.68rem; }
+    .about-hero { grid-template-columns: 1fr; min-height: auto; }
+    .about-hero-left { padding: 3rem 1.5rem; border-right: none; border-bottom: 1.5px solid var(--warm-brown); }
+    .about-hero-right { padding: 2.5rem 1.5rem; }
+    .story-section { grid-template-columns: 1fr; }
+    .story-label { border-right: none; border-bottom: 1.5px solid var(--warm-brown); padding: 1.5rem; }
+    .story-label-text { writing-mode: horizontal-tb; transform: none; }
+    .story-content { padding: 2.5rem 1.5rem; }
+    .founders-section { padding: 3rem 1.5rem; }
+    .founders-grid { grid-template-columns: 1fr; }
+    .values-section { padding: 3rem 1.5rem; }
+    .values-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .cta-section { padding: 3rem 1.5rem; flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-bottom { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  @media (max-width: 520px) {
+    nav { flex-wrap: wrap; gap: 0.75rem; }
+    .nav-links { gap: 0.9rem; order: 3; width: 100%; justify-content: center; }
+    .nav-links a { font-size: 0.62rem; }
+    .about-hero-title { font-size: 2.2rem; }
+  }
 </style>
 </head>
 <body>
@@ -456,5 +484,6 @@
   <span>Made with love in Singapore ✦</span>
 </div>
 
+<script src="cart.js"></script>
 </body>
 </html>

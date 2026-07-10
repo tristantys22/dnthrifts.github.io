@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Checkout — pay securely via PayLah! or Card for your dNthrifts order.">
 <title>Checkout — dNthrifts</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -108,6 +109,20 @@
     font-style: italic;
   }
 
+  .item-remove {
+    background: none;
+    border: none;
+    color: var(--dark-cream);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    padding: 0;
+  }
+
+  .item-remove:hover { color: var(--rust); }
+
   .item-price {
     font-size: 0.95rem;
     font-weight: 700;
@@ -136,6 +151,31 @@
     color: var(--warm-brown);
   }
 
+  .empty-cart {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .empty-cart p {
+    color: #6B5A46;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-cart a {
+    display: inline-block;
+    font-family: Helvetica, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--warm-brown);
+    color: var(--cream);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+  }
+
+  .empty-cart a:hover { background: var(--rust); }
+
   /* RIGHT — PAYMENT */
   .payment-panel {
     display: flex;
@@ -150,6 +190,35 @@
   }
 
   .payment-title span { color: var(--rust); }
+
+  /* PAYMENT METHOD TABS */
+  .method-tabs {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .method-tab {
+    flex: 1;
+    font-family: Helvetica, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.9rem 1rem;
+    border: 1.5px solid var(--warm-brown);
+    background: transparent;
+    color: var(--warm-brown);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .method-tab.active,
+  .method-tab:hover {
+    background: var(--warm-brown);
+    color: var(--cream);
+  }
+
+  .method-panel { display: none; flex-direction: column; gap: 2rem; }
+  .method-panel.active { display: flex; }
 
   .steps {
     display: flex;
@@ -220,6 +289,63 @@
 
   .qr-amount span { color: var(--rust); }
 
+  /* STRIPE CARD BOX */
+  .stripe-box {
+    background: var(--paper);
+    border: 1.5px solid var(--warm-brown);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .stripe-logo {
+    font-family: Helvetica, monospace;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-size: 1.1rem;
+    background: #635BFF;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+  }
+
+  .stripe-amount {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+  }
+
+  .stripe-amount span { color: var(--rust); }
+
+  .pay-btn {
+    display: block;
+    text-align: center;
+    font-family: Helvetica, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: #635BFF;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .pay-btn:hover { background: #4b45cc; }
+
+  .stripe-note {
+    font-size: 0.75rem;
+    color: #6B5A46;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
   /* DM BUTTON */
   .dm-btn {
     display: block;
@@ -260,6 +386,24 @@
     letter-spacing: 0.1em;
     color: var(--dark-cream);
   }
+
+  /* RESPONSIVE */
+  @media (max-width: 800px) {
+    nav { padding: 1rem 1.5rem; }
+    .checkout-wrapper {
+      grid-template-columns: 1fr;
+      margin: 2rem auto;
+      gap: 2.5rem;
+    }
+    .order-summary, .payment-title { padding: 2rem; }
+    .payment-title { padding: 0; }
+    .footer-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.5rem 1.5rem;
+      text-align: center;
+    }
+  }
 </style>
 </head>
 <body>
@@ -267,75 +411,103 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="index.html">dN<span>.</span>thrifts</a>
-  <a class="nav-back" href="index.html">← Back to shop</a>
+  <a class="nav-back" href="shop.html">← Back to shop</a>
 </nav>
 
 <!-- CHECKOUT -->
 <div class="checkout-wrapper">
 
-  <!-- LEFT: ORDER SUMMARY -->
+  <!-- LEFT: ORDER SUMMARY (populated by cart.js from localStorage) -->
   <div class="order-summary">
     <div class="summary-label">✦ Order Summary</div>
-
-    <!-- ITEM ROWS — add/remove items here to match what the buyer picked -->
-    <div class="item-row">
-      <div>
-        <div class="item-name">Vintage Band Tee</div>
-        <div class="item-meta">Size M · Pre-loved</div>
-      </div>
-      <div class="item-price">$14</div>
-    </div>
-
-    <div class="item-row">
-      <div>
-        <div class="item-name">Corduroy Blazer</div>
-        <div class="item-meta">Size S/M · Pre-loved</div>
-      </div>
-      <div class="item-price">$28</div>
-    </div>
+    <div id="itemRows"></div>
 
     <!-- TOTAL -->
     <div class="total-row">
       <div class="total-label">Total to Pay</div>
-      <div class="total-amount">$42</div>
+      <div class="total-amount" id="totalAmount">$0</div>
     </div>
   </div>
 
   <!-- RIGHT: PAYMENT -->
   <div class="payment-panel">
-    <div class="payment-title">Pay via<br><span>PayLah!</span></div>
+    <div class="payment-title">Choose your<br><span>payment method</span></div>
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text">Open your <strong>DBS PayLah!</strong> app and scan the QR code below</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text">Enter the <strong>exact amount shown</strong> and complete payment</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">Screenshot your receipt and <strong>DM us on Instagram</strong> to confirm your order</div>
-      </div>
+    <div class="method-tabs">
+      <button class="method-tab active" data-method="paylah">PayLah!</button>
+      <button class="method-tab" data-method="stripe">Card / Stripe</button>
     </div>
 
-    <!-- QR CODE -->
-    <div class="qr-box">
-      <div class="qr-amount">Pay <span>$42</span></div>
-      <!-- Make sure paylah.jpg is uploaded to your GitHub repo -->
-      <img src="images/paylah.jpg" alt="PayLah QR Code">
-      <div class="qr-label">Scan with DBS PayLah! app</div>
+    <!-- PAYLAH PANEL -->
+    <div class="method-panel active" id="panel-paylah">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open your <strong>DBS PayLah!</strong> app and scan the QR code below</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Enter the <strong>exact amount shown</strong> and complete payment</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Screenshot your receipt and <strong>DM us on Instagram</strong> to confirm your order</div>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-amount">Pay <span id="qrAmount">$0</span></div>
+        <!-- Replace images/paylah.jpg with your own PayLah QR export if it ever changes -->
+        <img src="images/paylah (1).jpg" alt="PayLah QR Code">
+        <div class="qr-label">Scan with DBS PayLah! app</div>
+      </div>
+
+      <a href="https://instagram.com/tristantys" target="_blank" rel="noopener" class="dm-btn">
+        📸 DM @tristantys after paying
+      </a>
+
+      <p class="dm-note">
+        Send us your payment screenshot on Instagram and include the item name(s) + your delivery address. We'll confirm within 24hrs! 🛍️
+      </p>
     </div>
 
-    <!-- DM BUTTON -->
-    <a href="https://instagram.com/tristantys" target="_blank" class="dm-btn">
-      📸 DM @tristantys after paying
-    </a>
+    <!-- STRIPE PANEL -->
+    <div class="method-panel" id="panel-stripe">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Click <strong>Pay with Card</strong> below to open a secure Stripe checkout page</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Enter the <strong>exact amount shown</strong> (Stripe lets buyers set the amount for us) and pay with any card, Apple Pay or Google Pay</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Screenshot your receipt and <strong>DM us on Instagram</strong> to confirm your order</div>
+        </div>
+      </div>
 
-    <p class="dm-note">
-      Send us your payment screenshot on Instagram and include the item name(s) + your delivery address. We'll confirm within 24hrs! 🛍️
-    </p>
+      <div class="stripe-box">
+        <span class="stripe-logo">stripe</span>
+        <div class="stripe-amount">Pay <span id="stripeAmount">$0</span></div>
+        <!--
+          SETUP NEEDED: Create a Stripe Payment Link at dashboard.stripe.com/payment-links
+          with "Customer can enter any amount they want" enabled, then paste the link's
+          URL below in place of the # placeholder. Keep the id="stripePayBtn" attribute.
+        -->
+        <a href="#" target="_blank" rel="noopener" class="pay-btn" id="stripePayBtn">Pay with Card →</a>
+        <p class="stripe-note">Secured by Stripe. We never see or store your card details.</p>
+      </div>
+
+      <a href="https://instagram.com/tristantys" target="_blank" rel="noopener" class="dm-btn">
+        📸 DM @tristantys after paying
+      </a>
+
+      <p class="dm-note">
+        Send us your payment confirmation email/screenshot on Instagram and include the item name(s) + your delivery address. We'll confirm within 24hrs! 🛍️
+      </p>
+    </div>
 
   </div>
 </div>
@@ -344,6 +516,65 @@
   <span>© 2024 dNthrifts. All rights reserved.</span>
   <span>Made with love in Singapore ✦</span>
 </div>
+
+<script src="cart.js"></script>
+<script>
+  function renderOrder() {
+    var cart = window.dnCart.getCart();
+    var rowsEl = document.getElementById('itemRows');
+    var summaryEl = document.querySelector('.order-summary');
+    rowsEl.innerHTML = '';
+
+    if (!cart.length) {
+      summaryEl.innerHTML =
+        '<div class="summary-label">✦ Order Summary</div>' +
+        '<div class="empty-cart">' +
+        '<p>Your bag is empty — pick something you love first!</p>' +
+        '<a href="shop.html">Browse the Shop →</a>' +
+        '</div>';
+      document.querySelector('.payment-panel').style.opacity = '0.35';
+      document.querySelector('.payment-panel').style.pointerEvents = 'none';
+      return;
+    }
+
+    cart.forEach(function (item, i) {
+      var row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML =
+        '<div>' +
+          '<div class="item-name">' + item.name + '</div>' +
+          '<div class="item-meta">' + (item.size ? 'Size ' + item.size + ' · ' : '') + 'Pre-loved</div>' +
+          '<button class="item-remove" data-index="' + i + '">Remove</button>' +
+        '</div>' +
+        '<div class="item-price">$' + item.price.toFixed(2).replace(/\.00$/, '') + '</div>';
+      rowsEl.appendChild(row);
+    });
+
+    var total = window.dnCart.cartTotal(cart);
+    var totalStr = '$' + total.toFixed(2).replace(/\.00$/, '');
+    document.getElementById('totalAmount').textContent = totalStr;
+    document.getElementById('qrAmount').textContent = totalStr;
+    document.getElementById('stripeAmount').textContent = totalStr;
+
+    rowsEl.querySelectorAll('.item-remove').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        window.dnCart.removeFromCart(parseInt(btn.getAttribute('data-index'), 10));
+        renderOrder();
+      });
+    });
+  }
+
+  document.querySelectorAll('.method-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.method-tab').forEach(function (t) { t.classList.remove('active'); });
+      document.querySelectorAll('.method-panel').forEach(function (p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.getAttribute('data-method')).classList.add('active');
+    });
+  });
+
+  renderOrder();
+</script>
 
 </body>
 </html>

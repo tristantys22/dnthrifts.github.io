@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shop pre-loved, handpicked thrifted clothing from dNthrifts — affordable vintage finds in Singapore.">
 <title>Shop — dNthrifts</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -292,6 +293,25 @@
     letter-spacing: 0.1em;
     color: var(--dark-cream);
   }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.68rem; }
+    .page-header { padding: 2rem 1.5rem 1.5rem; }
+    .filter-bar { padding: 1rem 1.5rem; }
+    .shop-grid { grid-template-columns: repeat(2, 1fr); margin: 2rem 1.5rem; }
+    .footer-bottom { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  @media (max-width: 520px) {
+    nav { flex-wrap: wrap; gap: 0.75rem; }
+    .nav-links { gap: 0.9rem; order: 3; width: 100%; justify-content: center; }
+    .nav-links a { font-size: 0.62rem; }
+    .page-title { font-size: 1.9rem; }
+    .shop-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+  }
 </style>
 </head>
 <body>
@@ -330,13 +350,12 @@
 <div class="shop-grid">
 
   <!-- SHIRT 1 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Vintage Band Tee" data-price="14" data-size="XL">
     <div class="product-image">
       <div class="tag tag-new">New In</div>
-      <!-- Replace with: <img src="images/shirt1.jpg" alt="Shirt 1"> -->
       <img src="images/shirt (1).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 1">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -351,12 +370,12 @@
   </div>
 
   <!-- SHIRT 2 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Washed Graphic Tee" data-price="12" data-size="L">
     <div class="product-image">
       <div class="tag tag-last">1 Left</div>
       <img src="images/shirt (2).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 2">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -371,11 +390,11 @@
   </div>
 
   <!-- SHIRT 3 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="90s Polo Shirt" data-price="16" data-size="M">
     <div class="product-image">
       <img src="images/shirt (3).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 3">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -390,12 +409,12 @@
   </div>
 
   <!-- SHIRT 4 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Striped Oxford Shirt" data-price="18" data-size="S">
     <div class="product-image">
       <div class="tag tag-new">New In</div>
       <img src="images/shirt (4).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 4">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -410,11 +429,11 @@
   </div>
 
   <!-- SHIRT 5 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Flannel Button-Up" data-price="20" data-size="XL">
     <div class="product-image">
       <img src="images/shirt (5).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 5">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -429,12 +448,12 @@
   </div>
 
   <!-- SHIRT 6 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Retro Sports Jersey" data-price="22" data-size="XXL">
     <div class="product-image">
       <div class="tag tag-last">1 Left</div>
       <img src="images/shirt (6).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 6">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -449,11 +468,11 @@
   </div>
 
   <!-- SHIRT 7 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Linen Camp Collar" data-price="15" data-size="M">
     <div class="product-image">
       <img src="images/shirt (7).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 7">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -468,12 +487,12 @@
   </div>
 
   <!-- SHIRT 8 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Oversized Crewneck" data-price="17" data-size="L">
     <div class="product-image">
       <div class="tag tag-new">New In</div>
       <img src="images/shirt (8).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 8">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -488,11 +507,11 @@
   </div>
 
   <!-- SHIRT 9 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Tie-Dye Tee" data-price="10" data-size="S">
     <div class="product-image">
       <img src="images/shirt (9).jpg" style="width:100%;height:100%;object-fit:cover;opacity:1;" alt="Shirt 9">
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -507,12 +526,12 @@
   </div>
 
   <!-- SHIRT 10 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Denim Shirt" data-price="24" data-size="XL">
     <div class="product-image">
       <div class="tag tag-last">1 Left</div>
       👕
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -527,11 +546,11 @@
   </div>
 
   <!-- SHIRT 11 -->
-  <div class="product-card">
+  <div class="product-card" data-item data-name="Hawaiian Shirt" data-price="13" data-size="M">
     <div class="product-image">
       👕
       <div class="product-overlay">
-        <a href="buy.html" class="buy-btn">Buy Now</a>
+        <button class="buy-btn" data-buy-now>Buy Now</button>
       </div>
     </div>
     <div class="product-info">
@@ -569,6 +588,7 @@
   <span>Made with love in Singapore ✦</span>
 </div>
 
+<script src="cart.js"></script>
 <script>
   // Filter buttons by size
   const filterBtns = document.querySelectorAll('.filter-btn');

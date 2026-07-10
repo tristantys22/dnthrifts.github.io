@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Get in touch with dNthrifts — questions about orders, sizing, or the next drop? Message us or DM @tristantys on Instagram.">
 <title>Contact — dNthrifts</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -352,6 +353,28 @@
     letter-spacing: 0.1em;
     color: var(--dark-cream);
   }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.68rem; }
+    .page-header { padding: 3rem 1.5rem 2rem; }
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .contact-info { border-right: none; border-bottom: 1.5px solid var(--warm-brown); padding: 2.5rem 1.5rem; }
+    .contact-form-wrap { padding: 2.5rem 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .faq-section { padding: 2.5rem 1.5rem; }
+    .faq-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .footer-bottom { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  @media (max-width: 520px) {
+    nav { flex-wrap: wrap; gap: 0.75rem; }
+    .nav-links { gap: 0.9rem; order: 3; width: 100%; justify-content: center; }
+    .nav-links a { font-size: 0.62rem; }
+    .page-title { font-size: 2.2rem; }
+  }
 </style>
 </head>
 <body>
@@ -459,7 +482,7 @@
 
     <div class="faq-item">
       <div class="faq-q">How do I pay?</div>
-      <p class="faq-a">We use PayLah! — scan the QR on the checkout page, enter the amount, and DM us your receipt on Instagram to confirm.</p>
+      <p class="faq-a">Choose PayLah! (scan the QR on checkout) or pay by card via Stripe — both are on the checkout page. Enter the amount shown, then DM us your receipt on Instagram to confirm.</p>
     </div>
 
     <div class="faq-item">
@@ -518,6 +541,7 @@
     document.getElementById('successMsg').classList.add('show');
   }
 </script>
+<script src="cart.js"></script>
 
 </body>
 </html>
