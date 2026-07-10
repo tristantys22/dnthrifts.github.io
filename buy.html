@@ -117,11 +117,25 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     cursor: pointer;
-    margin-top: 0.4rem;
     padding: 0;
+    margin-left: 0.5rem;
   }
 
   .item-remove:hover { color: var(--rust); }
+
+  .qty-btn {
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--warm-brown);
+    background: none;
+    color: var(--warm-brown);
+    cursor: pointer;
+    font-size: 0.8rem;
+    line-height: 1;
+    transition: all 0.2s;
+  }
+
+  .qty-btn:hover { background: var(--warm-brown); color: var(--cream); }
 
   .item-price {
     font-size: 0.95rem;
@@ -518,6 +532,7 @@
 </div>
 
 <script src="cart.js"></script>
+<script src="effects.js"></script>
 <script>
   function renderOrder() {
     var cart = window.dnCart.getCart();
@@ -538,20 +553,26 @@
     }
 
     cart.forEach(function (item, i) {
+      var qty = item.qty || 1;
       var row = document.createElement('div');
       row.className = 'item-row';
       row.innerHTML =
         '<div>' +
           '<div class="item-name">' + item.name + '</div>' +
           '<div class="item-meta">' + (item.size ? 'Size ' + item.size + ' · ' : '') + 'Pre-loved</div>' +
-          '<button class="item-remove" data-index="' + i + '">Remove</button>' +
+          '<div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;">' +
+            '<button class="qty-btn" data-index="' + i + '" data-delta="-1">-</button>' +
+            '<span style="font-size:0.8rem;min-width:1.2em;text-align:center;">' + qty + '</span>' +
+            '<button class="qty-btn" data-index="' + i + '" data-delta="1">+</button>' +
+            '<button class="item-remove" data-index="' + i + '">Remove</button>' +
+          '</div>' +
         '</div>' +
-        '<div class="item-price">$' + item.price.toFixed(2).replace(/\.00$/, '') + '</div>';
+        '<div class="item-price">' + window.dnCart.money(item.price * qty) + '</div>';
       rowsEl.appendChild(row);
     });
 
     var total = window.dnCart.cartTotal(cart);
-    var totalStr = '$' + total.toFixed(2).replace(/\.00$/, '');
+    var totalStr = window.dnCart.money(total);
     document.getElementById('totalAmount').textContent = totalStr;
     document.getElementById('qrAmount').textContent = totalStr;
     document.getElementById('stripeAmount').textContent = totalStr;
@@ -559,6 +580,15 @@
     rowsEl.querySelectorAll('.item-remove').forEach(function (btn) {
       btn.addEventListener('click', function () {
         window.dnCart.removeFromCart(parseInt(btn.getAttribute('data-index'), 10));
+        renderOrder();
+      });
+    });
+    rowsEl.querySelectorAll('.qty-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var i = parseInt(btn.getAttribute('data-index'), 10);
+        var delta = parseInt(btn.getAttribute('data-delta'), 10);
+        var current = window.dnCart.getCart()[i];
+        window.dnCart.setQty(i, (current.qty || 1) + delta);
         renderOrder();
       });
     });
